@@ -1,4 +1,4 @@
-# 💜 Rutuja Portfolio
+# Rutuja Portfolio
 
 A modern and visually attractive personal portfolio website built with HTML, CSS, and JavaScript featuring a Dark Luxury Purple + Neon Cyan theme.
 
