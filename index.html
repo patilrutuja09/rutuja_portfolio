@@ -1556,6 +1556,7 @@
   }
 </style>
 </head>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <body>
 
 <!-- NAVBAR -->
@@ -2085,16 +2086,55 @@ Object.keys(counterTargets).forEach(id => {
 });
 
 // Contact form
-document.getElementById('form-submit').addEventListener('click', function() {
-  const email = document.getElementById('f-email').value;
-  const msg = document.getElementById('f-message').value;
-  if (!email || !msg) return;
-  this.textContent = '✅ Message Sent!';
-  this.classList.add('sent');
-  setTimeout(() => {
-    this.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
-    this.classList.remove('sent');
-  }, 3500);
+emailjs.init("MZ9J2ve7XyqHM4gPd");
+
+document.getElementById("form-submit").addEventListener("click", function () {
+
+    const button = this;
+
+    const params = {
+        first_name: document.getElementById("f-first").value,
+        last_name: document.getElementById("f-last").value,
+        email: document.getElementById("f-email").value,
+        subject: document.getElementById("f-subject").value,
+        message: document.getElementById("f-message").value
+    };
+
+    if (!params.email || !params.message) {
+        alert("Please fill in Email and Message.");
+        return;
+    }
+
+    button.innerHTML = "Sending...";
+
+    emailjs.send(
+        "rutujapatil0910",
+        "template_z68h6j9",
+        params
+    )
+    .then(function () {
+        button.innerHTML = "✅ Message Sent!";
+
+        document.getElementById("f-first").value = "";
+        document.getElementById("f-last").value = "";
+        document.getElementById("f-email").value = "";
+        document.getElementById("f-subject").value = "";
+        document.getElementById("f-message").value = "";
+
+        setTimeout(() => {
+            button.innerHTML = "Send Message";
+        }, 3000);
+    })
+    .catch(function (error) {
+        console.error(error);
+        button.innerHTML = "❌ Failed";
+        alert("Failed to send message.");
+
+        setTimeout(() => {
+            button.innerHTML = "Send Message";
+        }, 3000);
+    });
+
 });
 
 // Hero entry animation
